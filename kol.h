@@ -11,6 +11,7 @@
 // niestojących w żadnej kolejce, a nawet po wywołaniu "zamkniecie_urzedu"
 
 struct interesant {
+// ----- NON-STATIC MEMBERS -----
 public:
 	// construct an interesant object and assign its id
 	// not_dummy - whether the created object is not a dummy one
@@ -19,8 +20,6 @@ public:
 	int get_id() const;
 	// exit the queue the interesant is currently waiting in
 	void exit_queue();
-
-	bool operator==(const interesant& other) const;
 private:
 	// interesant's id
 	int id;
@@ -28,14 +27,18 @@ private:
 	// both pointers are not NULL (exception: in a dummy interesant object, adj[0] == NULL)
 	interesant *adj[2];
 
-	// get the index of the adjecent interesant in the queue which is different than other
-	int adj_not(interesant *other) const;
-	// get the index of the adjecent interesant in the queue which is the same as other
-	// (assertion: adj[0] or adj[1] points to the same interesant as other)
-	int adj_is(interesant *other) const;
+	// get pointer to the adj which is different than other
+	interesant *adj_not(interesant *other) const;
+	// assign value to the adj the same as the other
+	void assign_adj_is(interesant *other, interesant *value);
+// ----- STATIC MEMBERS -----
+private:
+	// connect interesant a through the adj where it previously pointed to prev_adj_a to interesant b and vice versa
+	static void connect(interesant *a, interesant *prev_adj_a, interesant *b, interesant *prev_adj_b);
 	// the number of non-dummy interesants
 	inline static int counter = 0;
 
+// ----- FRIENDS -----
 	friend class Iterator;
 	friend class Window;
 };
