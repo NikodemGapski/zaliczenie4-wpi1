@@ -17,7 +17,7 @@ public:
 	interesant *get_cur() const;
 	interesant *get_prev() const;
 private:
-	interesant *prev, *cur;
+	interesant *cur, *prev;
 };
 
 // Window (Desoriented list of interesants with dummy elements)
@@ -38,8 +38,6 @@ public:
 	interesant *head, *tail;
 // ----- STATIC MEMBERS -----
 public:
-	// connect a.prev with b.prev
-	static void connect(Iterator a, Iterator b);
 	inline static std::vector<Window> windows = {};
 };
 
@@ -115,10 +113,6 @@ void Window::flip() { std::swap(head, tail); }
 
 bool Window::is_empty() const { return head->adj[1] == tail; }
 
-void Window::connect(Iterator a, Iterator b) {
-	interesant::connect(a.get_prev(), a.get_cur(), b.get_prev(), b.get_cur());
-}
-
 // --- interesant ---
 
 interesant::interesant(bool not_dummy) : id(not_dummy ? counter++ : -1) {}
@@ -190,7 +184,7 @@ std::vector<interesant*> fast_track(interesant *i1, interesant *i2) {
 	}
 	if(*b == i2) std::swap(a, b);
 	// now iterator a points to i2 in the opposite direction to i1
-	a.flip(); Iterator handle_1 = a;
+	a.flip(); Iterator last = a;
 	// move back to i1 and collect the result
 	std::vector<interesant*> res;
 	while(*a != i1) {
@@ -198,9 +192,9 @@ std::vector<interesant*> fast_track(interesant *i1, interesant *i2) {
 		++a;
 	}
 	res.push_back(*a);
-	a.flip(); Iterator handle_2 = a;
+	a.flip(); Iterator first = a;
 	// connect the edges of the interval
-	Window::connect(handle_1, handle_2);
+	interesant::connect(last.get_prev(), last.get_cur(), first.get_prev(), first.get_cur());
 	// the elements are in reverse order
 	std::reverse(res.begin(), res.end());
 	return res;

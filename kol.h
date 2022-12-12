@@ -18,11 +18,11 @@ public:
 	interesant(bool not_dummy = true);
 	// get interesant's id
 	int get_id() const;
-	// exit the queue the interesant is currently waiting in
-	void exit_queue();
 private:
 	// interesant's id
 	int id;
+	// exit the queue the interesant is currently waiting in
+	void exit_queue();
 	// pointers to adjecent interesants in the queue
 	// both pointers are not NULL (exception: in a dummy interesant object, adj[0] == NULL)
 	interesant *adj[2];
@@ -41,6 +41,8 @@ private:
 // ----- FRIENDS -----
 	friend class Iterator;
 	friend class Window;
+	friend void zmiana_okienka(interesant *i, int k);
+	friend std::vector<interesant*> fast_track(interesant *i1, interesant *i2);
 };
 
 /**
