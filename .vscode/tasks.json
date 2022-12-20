@@ -9,9 +9,9 @@
 				"-std=c++17",
                 "-g",
                 "${file}",
-				"kol.cpp",
+				"_kol.cpp",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/${fileBasenameNoExtension}.e"
             ],
             "options": {
                 "cwd": "${fileDirname}"

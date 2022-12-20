@@ -21,22 +21,21 @@ public:
 private:
 	// interesant's id
 	int id;
-	// exit the queue the interesant is currently waiting in
-	void exit_queue();
 	// pointers to adjecent interesants in the queue
 	// both pointers are not NULL (exception: in a dummy interesant object, adj[0] == NULL)
 	interesant *adj[2];
-
+	
 	// get pointer to the adj which is different than other
-	interesant *adj_not(interesant *other) const;
-	// assign value to the adj the same as the other
-	void assign_adj_is(interesant *other, interesant *value);
+	interesant *adj_diff(interesant *other) const;
+	// exit the queue the interesant is currently waiting in
+	void exit_queue();
+
 // ----- STATIC MEMBERS -----
 private:
-	// connect interesant a through the adj where it previously pointed to prev_adj_a to interesant b and vice versa
-	static void connect(interesant *a, interesant *prev_adj_a, interesant *b, interesant *prev_adj_b);
 	// the number of non-dummy interesants
 	inline static int counter = 0;
+	// connect cur to value through the adj previously pointing to prev
+	static void connect(interesant *cur, interesant *prev, interesant *value);
 
 // ----- FRIENDS -----
 	friend class Iterator;
